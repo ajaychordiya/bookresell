@@ -11,6 +11,7 @@ import { AuthGuard } from './auth/auth.guard';
 import { ProfileComponent } from './component/profile/profile.component';
 import { DeleteBookComponent } from './component/delete-book/delete-book.component';
 import { CityComponent } from './component/city/city.component';
+import { PageNotFoundComponent } from './component/page-not-found/page-not-found.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -26,7 +27,10 @@ const routes: Routes = [
   {
     path: 'delete/:id',
     component: DeleteBookComponent,
-    canActivate: [AuthGuard],
+  },
+  {
+    path: '**',
+    component: PageNotFoundComponent,
   },
 ];
 

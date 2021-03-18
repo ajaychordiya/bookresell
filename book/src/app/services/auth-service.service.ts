@@ -1,7 +1,6 @@
 import { HttpClient, HttpHeaderResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
-
 @Injectable({
   providedIn: 'root',
 })
@@ -37,6 +36,7 @@ export class AuthServiceService {
 
   getUserPayload() {
     var token = localStorage.getItem('token');
+    //var b = jwt_decode(token);
     if (token) {
       return token;
     } else {

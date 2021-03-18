@@ -5,6 +5,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const TOKEN_SECRET = "gjrfhkjgrlkdvksnkgfufeyhjg";
 const Joi = require("joi");
+const verify = require("../route/verifyToken");
 
 //validation using joi
 
@@ -74,10 +75,12 @@ router.post("/login", async (req, res) => {
   //res.send("sucesss");
 });
 
-router.get("/:id", async (req, res) => {
+//finding user by id
+router.get("/:id", verify, async (req, res) => {
   const user = await User.findById(req.params.id, (err, post) => {
     if (err) return next(err);
     res.json(post);
   });
 });
+
 module.exports = router;

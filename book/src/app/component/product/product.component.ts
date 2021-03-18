@@ -20,7 +20,7 @@ export class ProductComponent implements OnInit {
     let book = this.http.get(`http://localhost:3000/api/${id}`);
     book.subscribe((data) => {
       this.books = data;
-      localStorage.setItem('category', this.books.category);
+      localStorage.setItem('citys', this.books.city);
       //console.log(localStorage.getItem('category'))
     });
   }

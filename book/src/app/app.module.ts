@@ -6,7 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material/material.module';
 import { LoginComponent } from './component/login/login.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HeaderComponent } from './component/header/header.component';
 import { FooterComponent } from './component/footer/footer.component';
@@ -26,6 +26,8 @@ import { RecommendationBookComponent } from './component/recommendation-book/rec
 import { DeleteBookComponent } from './component/delete-book/delete-book.component';
 import { CityComponent } from './component/city/city.component';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { PageNotFoundComponent } from './component/page-not-found/page-not-found.component';
+import { TokenInterceptorService } from './services/token-interceptor.service';
 
 @NgModule({
   declarations: [
@@ -45,6 +47,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
     RecommendationBookComponent,
     DeleteBookComponent,
     CityComponent,
+    PageNotFoundComponent,
   ],
   imports: [
     BrowserModule,
@@ -57,7 +60,16 @@ import { NgxPaginationModule } from 'ngx-pagination';
     NgxPaginationModule,
     ReactiveFormsModule,
   ],
-  providers: [AuthServiceService, BookAuthService, AuthGuard],
+  providers: [
+    AuthServiceService,
+    BookAuthService,
+    AuthGuard,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptorService,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

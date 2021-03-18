@@ -1,7 +1,8 @@
 <br />
 <br />
 <br />
-<nav class="navbar navbar-expand">
+<br />
+<nav class="navbar navbar-expand" style="height: 30px">
   <div class="container-fluid">
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
@@ -10,7 +11,7 @@
             class="nav-link active"
             aria-current="page"
             (click)="getBooks(city)"
-            ><strong>Allcategory</strong></a
+            ><h4>Allcategory</h4></a
           >
         </li>
         <div *ngFor="let b of category">
@@ -19,7 +20,7 @@
               class="nav-link active"
               aria-current="page"
               routerLink="category/{{ b }}"
-              >{{ b }}</a
+              ><h4>{{ b | titlecase }}</h4></a
             >
           </li>
         </div>

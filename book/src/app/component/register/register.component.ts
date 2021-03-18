@@ -31,7 +31,6 @@ export class RegisterComponent implements OnInit {
         this.showSucessMessage = true;
         this.showErrorMessage = false;
         console.log(res);
-        setTimeout(() => (this.showErrorMessage = true), 2000);
       },
       (err) => {
         this.showErrorMessage = true;

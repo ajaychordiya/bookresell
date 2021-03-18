@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { from } from 'rxjs';
 import { BookAuthService } from 'src/app/services/book-auth.service';
-import { FileUploader } from 'ng2-file-upload';
 import { FormControl, FormGroup } from '@angular/forms';
 // import { BookAuthService } from '../book-auth.service'
 @Component({
@@ -23,6 +21,8 @@ export class SellComponent implements OnInit {
   imgData: String;
   user: any;
   productImage: any;
+  citys: any;
+  categorys: any;
 
   constructor(private book: BookAuthService) {}
 
@@ -35,22 +35,19 @@ export class SellComponent implements OnInit {
       price: new FormControl(null),
       city: new FormControl(null),
     });
+
+    this.book.getDistinctCity().subscribe((data) => (this.citys = data));
+    this.book
+      .getdistinctcategory()
+      .subscribe((data) => (this.categorys = data));
   }
 
   onFileSelect(event: Event) {
     this.productImage = (event.target as HTMLInputElement).files[0];
-    //console.log(this.productImage);
     this.form.patchValue({ image: this.productImage });
     const allowedtypes = ['image/png', 'image/jpg', 'image/jpeg'];
 
     if (this.productImage && allowedtypes.includes(this.productImage.type)) {
-      // const reader = new FileReader();
-      // reader.onload = () =>{
-      //   this.imgData = reader.result as string;
-      // }
-      // reader.readAsDataURL(this.productImage)
-      // console.log(reader)
-      console.log(this.productImage.value);
       const formData = new FormData();
       formData.append('productImage', this.productImage);
 

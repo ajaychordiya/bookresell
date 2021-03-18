@@ -63,12 +63,16 @@
         <input
           type="text"
           class="form-control"
+          list="id-category"
           placeholder="category"
           name="category"
           [(ngModel)]="category"
           #c="ngModel"
           required
         />
+        <datalist id="id-category">
+          <option *ngFor="let c of categorys" [value]="c"></option>
+        </datalist>
         <div
           *ngIf="c.invalid && (c.dirty || c.touched)"
           class="alert alert-danger"
@@ -111,11 +115,15 @@
           type="text"
           class="form-control"
           placeholder="city"
+          list="id-city"
           name="city"
           [(ngModel)]="city"
           #name="ngModel"
           required
         />
+        <datalist id="id-city">
+          <option *ngFor="let c1 of citys" [value]="c1"></option>
+        </datalist>
         <div
           *ngIf="name.invalid && (name.dirty || name.touched)"
           class="alert alert-danger"

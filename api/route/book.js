@@ -3,6 +3,7 @@ const router = express.Router();
 const path = require("path");
 const Book = require("../model/bookModel");
 const mongoose = require("mongoose");
+const verify = require("../route/verifyToken");
 
 const multer = require("multer");
 //for taking multiport files
@@ -36,6 +37,7 @@ router.get("/book/:title", async (req, res) => {
   res.send(book);
 });
 
+//searching the book with title and having that city
 router.get("/book1/:title/:city", async (req, res) => {
   const book = await Book.find(
     {
@@ -53,23 +55,27 @@ router.get("/book1/:title/:city", async (req, res) => {
   res.send(book);
 });
 
+// finding users book
 router.get("/user/:user", async (req, res) => {
   const book = await Book.find({ user: req.params.user });
   res.send(book);
 });
 
+// finding distinct category
 router.get("/cat", async (req, res) => {
   const book = await Book.distinct("category");
   console.log(JSON.stringify(book));
   res.send(book);
 });
 
+// finding book by city
 router.get("/city2/:city", async (req, res) => {
   const book = await Book.find({ city: req.params.city });
   //console.log(JSON.stringify(book));
   res.send(book);
 });
 
+//for finding books with city and category
 router.get("/citys/:city/:category", async (req, res) => {
   const book = await Book.find({
     $and: [{ city: req.params.city }, { category: req.params.category }],
@@ -77,13 +83,15 @@ router.get("/citys/:city/:category", async (req, res) => {
   //console.log(JSON.stringify(book));
   res.send(book);
 });
+
+//for finding distinct city
 router.get("/city1", async (req, res) => {
   const book = await Book.distinct("city");
   console.log(JSON.stringify(book));
   res.send(book);
 });
-router.get("/category/:cat", async (req, res) => {
-  const book = await Book.find({ category: req.params.cat }).limit(5);
+router.get("/city/:cat", async (req, res) => {
+  const book = await Book.find({ city: req.params.cat }).limit(5);
   res.send(book);
 });
 
@@ -103,7 +111,9 @@ router.get("/:id", function (req, res, next) {
     });
 });
 
-router.delete("/:id", function (req, res, next) {
+//for deleting the book
+
+router.delete("/:id", verify, function (req, res, next) {
   Book.findByIdAndRemove(req.params.id, function (err, post) {
     if (err) return next(err);
     res.json(post);
@@ -125,7 +135,7 @@ router.post("/upload", upload.single("productImage"), async (req, res) => {
 });
 
 //saving book
-router.post("/sell", async (req, res) => {
+router.post("/sell", verify, async (req, res) => {
   var objectId = mongoose.Types.ObjectId(req.body.user);
   console.log(objectId);
 
