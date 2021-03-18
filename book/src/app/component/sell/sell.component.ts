@@ -1,13 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { BookAuthService } from 'src/app/services/book-auth.service';
 import { FormControl, FormGroup } from '@angular/forms';
-// import { BookAuthService } from '../book-auth.service'
+import { SubSink } from 'subsink';
+
 @Component({
   selector: 'app-sell',
   templateUrl: './sell.component.html',
   styleUrls: ['./sell.component.css'],
 })
-export class SellComponent implements OnInit {
+export class SellComponent implements OnInit, OnDestroy {
   title: String;
   author: String;
   publication: String;
@@ -23,6 +24,7 @@ export class SellComponent implements OnInit {
   productImage: any;
   citys: any;
   categorys: any;
+  subs = new SubSink();
 
   constructor(private book: BookAuthService) {}
 
@@ -35,11 +37,14 @@ export class SellComponent implements OnInit {
       price: new FormControl(null),
       city: new FormControl(null),
     });
-
-    this.book.getDistinctCity().subscribe((data) => (this.citys = data));
-    this.book
-      .getdistinctcategory()
-      .subscribe((data) => (this.categorys = data));
+    this.subs.add(
+      this.book.getDistinctCity().subscribe((data) => (this.citys = data))
+    );
+    this.subs.add(
+      this.book
+        .getdistinctcategory()
+        .subscribe((data) => (this.categorys = data))
+    );
   }
 
   onFileSelect(event: Event) {
@@ -80,18 +85,25 @@ export class SellComponent implements OnInit {
 
     console.log(data);
     console.log(this.imgUrl);
-    this.book.sell(data).subscribe(
-      (res) => {
-        this.showSucessMessage = true;
-        setTimeout(() => (this.showSucessMessage = false), 4000);
-      },
-      (err) => {
-        if (err.status == 400) {
-          this.serverErrorMessage = err.error.join('<br/>');
+
+    this.subs.add(
+      this.book.sell(data).subscribe(
+        (res) => {
+          this.showSucessMessage = true;
+          setTimeout(() => (this.showSucessMessage = false), 4000);
+        },
+        (err) => {
+          if (err.status == 400) {
+            this.serverErrorMessage = err.error.join('<br/>');
+          }
         }
-      }
+      )
     );
 
     console.log(data);
+  }
+
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
   }
 }

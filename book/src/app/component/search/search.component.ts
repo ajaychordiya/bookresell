@@ -1,14 +1,15 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BookAuthService } from 'src/app/services/book-auth.service';
+import { SubSink } from 'subsink';
 
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.css'],
 })
-export class SearchComponent implements OnInit {
+export class SearchComponent implements OnInit, OnDestroy {
   books: any;
   category: any;
   city: any;
@@ -17,6 +18,7 @@ export class SearchComponent implements OnInit {
   book1: any;
   p: number = 1;
   length: any;
+  subs = new SubSink();
 
   constructor(
     private http: HttpClient,
@@ -30,19 +32,25 @@ export class SearchComponent implements OnInit {
 
     if (this.selectCity === null) {
       //console.log(name);
-      this.book1 = this.book.search(this.name).subscribe((data) => {
-        this.books = data;
-        this.length = this.books.length;
-      });
+      this.subs.add(
+        this.book.search(this.name).subscribe((data) => {
+          this.books = data;
+          this.length = this.books.length;
+        })
+      );
     } else {
       //console.log(name);
-      this.book1 = this.http.get(
-        `http://localhost:3000/api/book1/${this.name}/${this.selectCity}`
+      this.book1 = this.book.searchWithCity(this.name, this.selectCity);
+
+      this.subs.add(
+        this.book1.subscribe((data) => {
+          this.books = data;
+          this.length = this.books.length;
+        })
       );
-      this.book1.subscribe((data) => {
-        this.books = data;
-        this.length = this.books.length;
-      });
     }
+  }
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
   }
 }

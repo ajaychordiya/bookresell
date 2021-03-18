@@ -1,12 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AuthServiceService } from 'src/app/services/auth-service.service';
+import { SubSink } from 'subsink';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css'],
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent implements OnInit, OnDestroy {
   name: String;
   email: String;
   password: String;
@@ -14,6 +15,7 @@ export class RegisterComponent implements OnInit {
 
   showSucessMessage: boolean;
   showErrorMessage: boolean;
+  subs = new SubSink();
 
   constructor(private authService: AuthServiceService) {}
 
@@ -26,16 +28,22 @@ export class RegisterComponent implements OnInit {
       mobile_no: this.mobile_no,
     };
 
-    this.authService.registerUSer(user).subscribe(
-      (res) => {
-        this.showSucessMessage = true;
-        this.showErrorMessage = false;
-        console.log(res);
-      },
-      (err) => {
-        this.showErrorMessage = true;
-        this.showSucessMessage = false;
-      }
+    this.subs.add(
+      this.authService.registerUSer(user).subscribe(
+        (res) => {
+          this.showSucessMessage = true;
+          this.showErrorMessage = false;
+          console.log(res);
+        },
+        (err) => {
+          this.showErrorMessage = true;
+          this.showSucessMessage = false;
+        }
+      )
     );
+  }
+
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
   }
 }

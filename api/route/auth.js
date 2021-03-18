@@ -7,20 +7,8 @@ const TOKEN_SECRET = "gjrfhkjgrlkdvksnkgfufeyhjg";
 const Joi = require("joi");
 const verify = require("../route/verifyToken");
 
-//validation using joi
-
-// const schema = {
-//     name : Joi.string().min(2).required(),
-//     email : Joi.string().min(6).required().email(),
-//     password : Joi.string().min(8).required(),
-//     mobile_no : Joi.string().min(10).required()
-// }
-
 //register
 router.post("/register", async (req, res) => {
-  // const validation = Joi.validate(req.body,schema);
-  // res.send(validation);
-
   //check Email is Exist
 
   const emailExist = await User.findOne({ email: req.body.email });

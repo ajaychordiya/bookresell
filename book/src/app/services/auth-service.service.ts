@@ -61,4 +61,8 @@ export class AuthServiceService {
   getUsername() {
     return localStorage.getItem('email');
   }
+
+  getUsers(id: string) {
+    return this.http.get(`http://localhost:3000/api/user/${id}`);
+  }
 }

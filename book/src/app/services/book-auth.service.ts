@@ -45,4 +45,7 @@ export class BookAuthService {
   search(title: string) {
     return this.http.get(`${this.baseURL}/api/book/${title}`);
   }
+  searchWithCity(name: string, city: string) {
+    return this.http.get(`http://localhost:3000/api/book1/${name}/${city}`);
+  }
 }

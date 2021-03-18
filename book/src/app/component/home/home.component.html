@@ -36,7 +36,7 @@
 
 <div class="container">
   <h1>Fresh Recommendations</h1>
-  <div class="row row-cols-5">
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5">
     <div
       class="col"
       *ngFor="let b of books | paginate: { itemsPerPage: 10, currentPage: p }"

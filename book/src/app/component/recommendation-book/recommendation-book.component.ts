@@ -1,21 +1,30 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { SubSink } from 'subsink';
+import { BookAuthService } from 'src/app/services/book-auth.service';
 
 @Component({
   selector: 'app-recommendation-book',
   templateUrl: './recommendation-book.component.html',
   styleUrls: ['./recommendation-book.component.css'],
 })
-export class RecommendationBookComponent implements OnInit {
+export class RecommendationBookComponent implements OnInit, OnDestroy {
   books: any;
   cate: any;
-  constructor(private http: HttpClient) {}
+  subs = new SubSink();
+  constructor(private http: HttpClient, private book: BookAuthService) {}
 
   ngOnInit(): void {
     this.cate = localStorage.getItem('citys');
     let book = this.http.get(`http://localhost:3000/api/city/${this.cate}`);
-    book.subscribe((data) => {
-      this.books = data;
-    });
+    this.subs.add(
+      book.subscribe((data) => {
+        this.books = data;
+      })
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
   }
 }
