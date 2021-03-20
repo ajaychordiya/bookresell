@@ -1,1 +1,1 @@
-![ScreenShot](https:////postimg.cc/gallery/JW5G9h2)
+![ScreenShot](https://postimg.cc/gallery/JW5G9h2)
