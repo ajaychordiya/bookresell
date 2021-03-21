@@ -22,6 +22,7 @@ export class HeaderComponent implements OnInit, OnChanges {
   selectCity: any;
   email: any;
   city: any;
+  isSelected: boolean = true;
   //@Input() name: String;
   constructor(
     private router: Router,
@@ -37,10 +38,18 @@ export class HeaderComponent implements OnInit, OnChanges {
     this.city = this.book.getDistinctCity();
     this.city.subscribe((data) => (this.city1 = data));
     this.selectCity = localStorage.getItem('city');
+    this.selectedCity(this.selectCity);
   }
 
   ngOnChanges(): void {
     this.isLogin();
+  }
+  selectedCity(city: string) {
+    if (city === null) {
+      this.isSelected = false;
+    } else {
+      this.isSelected = true;
+    }
   }
   onSubmit1() {
     const book = {

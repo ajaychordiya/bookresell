@@ -8,7 +8,7 @@
     class="col-lg-2"
     style="margin-left: 30px; margin-top: 40px; margin-right: 90px"
   >
-    <h2>SELECTED Category</h2>
+    <h2>Selected Category</h2>
     <h4>{{ categorys }}</h4>
     <h4>All Categories</h4>
     <select
@@ -17,8 +17,8 @@
       aria-label="Default select example"
     >
       <!-- [(ngModel)]="categorys" -->
-      <option>{{ categorys }}</option>
-      <option *ngFor="let c of category">
+
+      <option *ngFor="let c of category" [selected]="categorys == c">
         {{ c }}
       </option>
     </select>
