@@ -15,9 +15,9 @@
       class="form-select"
       (change)="onChange($event.target.value)"
       aria-label="Default select example"
-      [(ngModel)]="categorys"
     >
-      <option>Select Category</option>
+      <!-- [(ngModel)]="categorys" -->
+      <option>{{ categorys }}</option>
       <option *ngFor="let c of category">
         {{ c }}
       </option>

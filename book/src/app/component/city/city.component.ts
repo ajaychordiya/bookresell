@@ -54,9 +54,10 @@ export class CityComponent implements OnInit, OnDestroy {
     this.categorys = event;
     if (this.deviceValue === null) {
       this.subs.add(
-        this.book
-          .getBycategory(this.categorys)
-          .subscribe((data) => (this.book_city = data))
+        this.book.getBycategory(this.categorys).subscribe((data) => {
+          this.book_city = data;
+          this.length = this.book_city.length;
+        })
       );
     } else {
       this.subs.add(

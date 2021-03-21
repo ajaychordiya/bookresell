@@ -26,7 +26,7 @@
             (change)="onChange($event.target.value)"
             [(ngModel)]="city"
           >
-            <option>Select Location</option>
+            <option>{{ selectCity }}</option>
             <option *ngFor="let city of city1">
               {{ city }}
             </option>
@@ -42,9 +42,7 @@
               name="search"
               aria-label="Search"
             />
-            <button class="btn btn-outline-success" type="submit">
-              Search
-            </button>
+            <button class="btn btn-light" type="submit">Search</button>
           </form>
         </li>
       </ul>

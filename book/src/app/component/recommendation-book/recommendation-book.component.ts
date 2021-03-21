@@ -16,9 +16,9 @@ export class RecommendationBookComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.cate = localStorage.getItem('citys');
-    let book = this.http.get(`http://localhost:3000/api/city/${this.cate}`);
+    let book1 = this.book.getBookbyCity(this.cate);
     this.subs.add(
-      book.subscribe((data) => {
+      book1.subscribe((data) => {
         this.books = data;
       })
     );
