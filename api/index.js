@@ -1,8 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 //const bodyParser = require('body-parser');
-const url =
-  "mongodb+srv://user:1234@cluster0.isczk.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+const url ="your url";
 const path = require("path");
 const port = process.env.PORT || 8080;
 
